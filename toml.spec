@@ -19,7 +19,7 @@ BuildRequires : py-python
 BuildRequires : pytest
 BuildRequires : tox
 BuildRequires : virtualenv
-
+Provides: python-toml
 %description
 ****
 TOML
