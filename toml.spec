@@ -4,7 +4,7 @@
 #
 Name     : toml
 Version  : 0.10.0
-Release  : 4
+Release  : 5
 URL      : https://files.pythonhosted.org/packages/b9/19/5cbd78eac8b1783671c40e34bb0fa83133a06d340a38b55c645076d40094/toml-0.10.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/b9/19/5cbd78eac8b1783671c40e34bb0fa83133a06d340a38b55c645076d40094/toml-0.10.0.tar.gz
 Summary  : Python Library for Tom's Obvious, Minimal Language
