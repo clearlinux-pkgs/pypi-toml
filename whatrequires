@@ -1,1 +1,7 @@
 # This file contains recursive sources that require this package
+check-manifest
+coverage
+isort
+python-zstandard
+setuptools_scm
+tox

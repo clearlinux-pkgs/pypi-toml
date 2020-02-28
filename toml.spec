@@ -4,7 +4,7 @@
 #
 Name     : toml
 Version  : 0.10.0
-Release  : 7
+Release  : 8
 URL      : https://files.pythonhosted.org/packages/b9/19/5cbd78eac8b1783671c40e34bb0fa83133a06d340a38b55c645076d40094/toml-0.10.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/b9/19/5cbd78eac8b1783671c40e34bb0fa83133a06d340a38b55c645076d40094/toml-0.10.0.tar.gz
 Summary  : Python Library for Tom's Obvious, Minimal Language
@@ -19,13 +19,185 @@ BuildRequires : py-python
 BuildRequires : pytest
 BuildRequires : tox
 BuildRequires : virtualenv
-Provides: python-toml
+
 %description
 ****
 TOML
 ****
+
 .. image:: https://badge.fury.io/py/toml.svg
-:target: https://badge.fury.io/py/toml
+    :target: https://badge.fury.io/py/toml
+
+.. image:: https://travis-ci.org/uiri/toml.svg?branch=master
+    :target: https://travis-ci.org/uiri/toml
+
+.. image:: https://img.shields.io/pypi/pyversions/toml.svg
+    :target: https://pypi.org/project/toml/
+
+
+A Python library for parsing and creating `TOML <https://en.wikipedia.org/wiki/TOML>`_.
+
+The module passes `the TOML test suite <https://github.com/BurntSushi/toml-test>`_.
+
+See also:
+
+* `The TOML Standard <https://github.com/toml-lang/toml>`_
+* `The currently supported TOML specification <https://github.com/toml-lang/toml/blob/v0.5.0/README.md>`_
+
+Installation
+============
+
+To install the latest release on `PyPI <https://pypi.org/project/toml/>`_,
+simply run:
+
+::
+
+  pip install toml
+
+Or to install the latest development version, run:
+
+::
+
+  git clone https://github.com/uiri/toml.git
+  cd toml
+  python setup.py install
+
+Quick Tutorial
+==============
+
+*toml.loads* takes in a string containing standard TOML-formatted data and
+returns a dictionary containing the parsed data.
+
+.. code:: pycon
+
+  >>> import toml
+  >>> toml_string = """
+  ... # This is a TOML document.
+  ...
+  ... title = "TOML Example"
+  ...
+  ... [owner]
+  ... name = "Tom Preston-Werner"
+  ... dob = 1979-05-27T07:32:00-08:00 # First class dates
+  ...
+  ... [database]
+  ... server = "192.168.1.1"
+  ... ports = [ 8001, 8001, 8002 ]
+  ... connection_max = 5000
+  ... enabled = true
+  ...
+  ... [servers]
+  ...
+  ...   # Indentation (tabs and/or spaces) is allowed but not required
+  ...   [servers.alpha]
+  ...   ip = "10.0.0.1"
+  ...   dc = "eqdc10"
+  ...
+  ...   [servers.beta]
+  ...   ip = "10.0.0.2"
+  ...   dc = "eqdc10"
+  ...
+  ... [clients]
+  ... data = [ ["gamma", "delta"], [1, 2] ]
+  ...
+  ... # Line breaks are OK when inside arrays
+  ... hosts = [
+  ...   "alpha",
+  ...   "omega"
+  ... ]
+  ... """
+  >>> parsed_toml = toml.loads(toml_string)
+
+
+*toml.dumps* takes a dictionary and returns a string containing the
+corresponding TOML-formatted data.
+
+.. code:: pycon
+
+  >>> new_toml_string = toml.dumps(parsed_toml)
+  >>> print(new_toml_string)
+  title = "TOML Example"
+  [owner]
+  name = "Tom Preston-Werner"
+  dob = 1979-05-27T07:32:00Z
+  [database]
+  server = "192.168.1.1"
+  ports = [ 8001, 8001, 8002,]
+  connection_max = 5000
+  enabled = true
+  [clients]
+  data = [ [ "gamma", "delta",], [ 1, 2,],]
+  hosts = [ "alpha", "omega",]
+  [servers.alpha]
+  ip = "10.0.0.1"
+  dc = "eqdc10"
+  [servers.beta]
+  ip = "10.0.0.2"
+  dc = "eqdc10"
+
+For more functions, view the API Reference below.
+
+API Reference
+=============
+
+``toml.load(f, _dict=dict)``
+  Parse a file or a list of files as TOML and return a dictionary.
+
+  :Args:
+    * ``f``: A path to a file, list of filepaths (to be read into single
+      object) or a file descriptor
+    * ``_dict``: The class of the dictionary object to be returned
+
+  :Returns:
+    A dictionary (or object ``_dict``) containing parsed TOML data
+
+  :Raises:
+    * ``TypeError``: When ``f`` is an invalid type or is a list containing
+      invalid types
+    * ``TomlDecodeError``: When an error occurs while decoding the file(s)
+
+``toml.loads(s, _dict=dict)``
+  Parse a TOML-formatted string to a dictionary.
+
+  :Args:
+    * ``s``: The TOML-formatted string to be parsed
+    * ``_dict``: Specifies the class of the returned toml dictionary
+
+  :Returns:
+    A dictionary (or object ``_dict``) containing parsed TOML data
+
+  :Raises:
+    * ``TypeError``: When a non-string object is passed
+    * ``TomlDecodeError``: When an error occurs while decoding the
+      TOML-formatted string
+
+``toml.dump(o, f)``
+  Write a dictionary to a file containing TOML-formatted data
+
+  :Args:
+    * ``o``: An object to be converted into TOML
+    * ``f``: A File descriptor where the TOML-formatted output should be stored
+
+  :Returns:
+    A string containing the TOML-formatted data corresponding to object ``o``
+
+  :Raises:
+    * ``TypeError``: When anything other than file descriptor is passed
+
+``toml.dumps(o)``
+  Create a TOML-formatted string from an input object
+
+  :Args:
+    * ``o``: An object to be converted into TOML
+
+  :Returns:
+    A string containing the TOML-formatted data corresponding to object ``o``
+
+Licensing
+=========
+
+This project is released under the terms of the MIT Open Source License. View
+*LICENSE.txt* for more information.
 
 %package license
 Summary: license components for the toml package.
@@ -48,6 +220,7 @@ python components for the toml package.
 Summary: python3 components for the toml package.
 Group: Default
 Requires: python3-core
+Provides: pypi(toml)
 
 %description python3
 python3 components for the toml package.
@@ -55,13 +228,20 @@ python3 components for the toml package.
 
 %prep
 %setup -q -n toml-0.10.0
+cd %{_builddir}/toml-0.10.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556981803
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1582909346
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
@@ -69,7 +249,7 @@ python3 setup.py build
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/toml
-cp LICENSE %{buildroot}/usr/share/package-licenses/toml/LICENSE
+cp %{_builddir}/toml-0.10.0/LICENSE %{buildroot}/usr/share/package-licenses/toml/272cabcbe07880ba7325f79b5b487220e3e6153c
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -80,7 +260,7 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/toml/LICENSE
+/usr/share/package-licenses/toml/272cabcbe07880ba7325f79b5b487220e3e6153c
 
 %files python
 %defattr(-,root,root,-)
