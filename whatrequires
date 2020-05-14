@@ -2,6 +2,7 @@
 check-manifest
 coverage
 isort
+pylint
 python-zstandard
 setuptools_scm
 tox
