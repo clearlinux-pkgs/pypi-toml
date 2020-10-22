@@ -4,12 +4,13 @@
 #
 Name     : toml
 Version  : 0.10.1
-Release  : 11
+Release  : 12
 URL      : https://files.pythonhosted.org/packages/da/24/84d5c108e818ca294efe7c1ce237b42118643ce58a14d2462b3b2e3800d5/toml-0.10.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/da/24/84d5c108e818ca294efe7c1ce237b42118643ce58a14d2462b3b2e3800d5/toml-0.10.1.tar.gz
 Summary  : Python Library for Tom's Obvious, Minimal Language
 Group    : Development/Tools
 License  : MIT
+Requires: toml-license = %{version}-%{release}
 Requires: toml-python = %{version}-%{release}
 Requires: toml-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
@@ -22,6 +23,14 @@ BuildRequires : virtualenv
 %description
 TOML
         ****
+
+%package license
+Summary: license components for the toml package.
+Group: Default
+
+%description license
+license components for the toml package.
+
 
 %package python
 Summary: python components for the toml package.
@@ -51,7 +60,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1589496015
+export SOURCE_DATE_EPOCH=1603406294
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -63,6 +72,8 @@ python3 setup.py build
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/toml
+cp %{_builddir}/toml-0.10.1/LICENSE %{buildroot}/usr/share/package-licenses/toml/5e02fc6e946419e35c2f97512cee7fd1a2fe1952
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -70,6 +81,10 @@ echo ----[ mark ]----
 
 %files
 %defattr(-,root,root,-)
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/toml/5e02fc6e946419e35c2f97512cee7fd1a2fe1952
 
 %files python
 %defattr(-,root,root,-)

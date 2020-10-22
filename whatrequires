@@ -1,8 +1,9 @@
 # This file contains recursive sources that require this package
 check-manifest
 coverage
-isort
+cve-bin-tool
 pylint
+pytest
 python-zstandard
 setuptools_scm
 tox
