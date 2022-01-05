@@ -1,9 +1,8 @@
 # This file contains recursive sources that require this package
+ansible
 check-manifest
-coverage
-cve-bin-tool
-pylint
-pytest
+ipdb
+pydocstyle
+pyls-black
 python-zstandard
-setuptools_scm
 tox
