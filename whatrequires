@@ -1,8 +1,1 @@
 # This file contains recursive sources that require this package
-ansible
-check-manifest
-ipdb
-pydocstyle
-pyls-black
-python-zstandard
-tox
